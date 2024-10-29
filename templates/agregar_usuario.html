@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Nuevo usuario</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'agregar_empleado' %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <div class="row">
+                        {% for field in formulario_empleado %}
+                            <div class="col-md-12 mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <div class="col-md-12 mb-3">
+                            <label for="group" class="form-label">Grupo</label>
+                            <select class="form-select" id="group" name="group" required>
+                                <option value="" disabled selected>Seleccione un grupo</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Empleado">Empleado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="btn-agregar" class="btn btn-success">Agregar</button>
+            </form>
+        </div>
+    </div>
+</div>

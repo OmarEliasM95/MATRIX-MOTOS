@@ -1,0 +1,20 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Editar Producto</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'editar_producto' id_producto=id_producto %}" method="POST">
+                {% csrf_token %}
+                <table>
+                    {{ formulario_editar.as_table }}
+                </table>
+                <div class="d-flex justify-content-between mt-3">
+                    <input type="submit" id="guardarBtn" class="btn btn-primary" value="Guardar">
+                    <input type="button" id="cancelarBtn" class="btn btn-secondary" onclick="window.location.href='{% url 'lista_producto' %}'" value="Cancelar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

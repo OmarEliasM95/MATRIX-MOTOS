@@ -1,0 +1,65 @@
+.content {
+    margin-top: 100px;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.info-cierre p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.contenedor-ingresos-egresos {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.lista-ingresos, .lista-egresos {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    width: 48%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.lista-ingresos ul, .lista-egresos ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.lista-ingresos li, .lista-egresos li {
+    margin-bottom: 10px;
+}
+
+input[type="button"], input[type="submit"] {
+    background-color: rgb(23, 126, 63);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 20%;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover {
+    background-color: rgb(19, 104, 53);
+}
+
+@media (max-width: 768px) {
+    .contenedor-ingresos-egresos {
+        flex-direction: column;
+    }
+    .lista-ingresos, .lista-egresos {
+        width: 100%;
+    }
+}

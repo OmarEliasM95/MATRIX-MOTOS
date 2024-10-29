@@ -1,0 +1,30 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %} Detalle de compra{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/detalleCpra.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="contenedor card">
+        <table border="1">
+            <tr>
+                <th>Producto Nombre</th>
+                <th>Precio de venta</th>
+                <th>Cantidad</th>
+            </tr>
+    
+            <tbody>
+                {% for item in productos_vendidos %}
+                    <tr>
+                        <td>{{item.producto}}</td>
+                        <td>${{item.subtotal}}</td>
+                        <td>{{item.cantidad}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" onclick="window.location.href='{% url 'historial_ventas' %}'" value="Atrás">
+    </div>
+
+{% endblock %}

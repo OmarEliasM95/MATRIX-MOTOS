@@ -1,0 +1,46 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %} Gastos{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/gasto.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="contenedor-flex">
+        <div class="card columna-izquierda">
+            <center>
+            <form action="{% url 'agregar_gasto' %}" method="POST">
+                {% csrf_token %}
+                <h1>AGREGAR GASTO</h1>
+                <table>
+                    <b>Fecha: {{formulario.instance.fecha}}</b>
+                    {{formulario.as_table}}
+                </table><br>
+                <button type="submit">Agregar</button>
+            </form> 
+            </center>
+        </div>
+    
+        <div class="card contenido">
+            <h2><center>LISTA DE GASTOS</center></h2>
+            <table border="1px">
+                <tr>
+                    <th>Empleado</th>
+                    <th>Fecha</th>
+                    <th>Descripcion del gasto</th>
+                    <th>Costo</th>
+                </tr>
+                <tbody>
+                    {% for gasto in lista_gasto %}
+                        <tr>
+                            <td>{{gasto.empleado}}</td>
+                            <td>{{gasto.fecha}}</td>
+                            <td>{{gasto.descripcion_gasto}}</td>
+                            <td>${{gasto.costo}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

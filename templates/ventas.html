@@ -1,0 +1,76 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %} Ventas{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/ventas.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="contenedor-flex">
+        <div class="columna-izquierda card">
+            <h2>INVENTARIO</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio Unitario</th>
+                    <th>Stock</th>
+                    <th>Cantidad</th>
+                </tr>
+
+                {% for producto in lista_producto %}
+                    <tr>
+                        <td>{{ producto.id }}</td>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td>{{ producto.existencias }}</td>
+                        <td>
+                            <form action="{% url 'agregar_producto' id_producto=producto.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="cantidad" value="1" min="1" max="{{ producto.existencias }}"><br><br>
+                                <button type="submit">Agregar</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="contenido card">
+            <h2><center>VENTA Nº {{venta.id}}</center></h2>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+                <tbody>
+                    {% for producto in productos %}                
+                        <tr>
+                            <td>{{ producto.producto.nombre }}</td>
+                            <td>{{ producto.producto.precio }}</td>
+                            <td>{{ producto.cantidad }}</td>
+                            <td>{{ producto.subtotal }}</td>
+                            <td>
+                                <form action="{% url 'eliminar_producto_vendido' producto.producto.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>  
+                    {% endfor %}
+                </tbody>
+            </table>
+            <center>
+                <h3>Total ${{venta.total_venta}}</h3>
+                <form action="{% url 'crear_factura' venta.id %}" method="POST">
+                    {% csrf_token %}
+                    {{ formularioP|safe }}
+                    <button type="submit">Confirmar</button>
+                </form>
+            </center>
+        </div>
+    </div>
+{% endblock %}

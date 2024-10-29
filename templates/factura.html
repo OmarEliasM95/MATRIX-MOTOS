@@ -1,0 +1,52 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %}Ticket{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/factura.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="card p-4">
+            <h1 class="text-center">Ticket N° {{ venta.id }}</h1>
+            <div class="text-center">
+                <img src="{% static 'IMAGENES/logoOficialMatrix.png' %}" alt="logo-matrix" class="img-fluid mb-3" style="max-width: 200px;">
+            </div>
+            <p class="text-center">Dirección: Calle Los Delfines nº 270 casa nº 11</p>
+            <p class="text-center">WhatsApp: 3875814670</p>
+            <p class="text-center">Email: matrixmotos_saltacapital@gmail.com</p>
+            <p class="text-center">Seguinos en @matrix_repuestosmot</p>
+            <p class="text-center">Fecha: {{ venta.fecha|date:"d/m/Y" }} Hora: {{ venta.fecha|time:"H:i" }}</p>
+            <p class="text-center">Método de Pago: {{ venta.get_metodo_pago_display }}</p>
+            <table class="table table-bordered mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio Unitario</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos_a_vender %}
+                    <tr>
+                        <td>{{ producto.producto.nombre }}</td>
+                        <td>${{ producto.producto.precio }}</td>
+                        <td>{{ producto.cantidad }}</td>
+                        <td>${{ producto.subtotal }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="table-secondary">
+                        <td colspan="3" class="text-end fw-bold">Total</td>
+                        <td>${{ venta.total_venta }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <p class="text-center">Gracias por su compra. Lo esperamos nuevamente.</p>
+            <div class="text-center">
+                <button class="btn btn-primary" onclick="window.location.href='{% url 'nueva_venta' %}'">Volver</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

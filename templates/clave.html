@@ -1,0 +1,19 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Cambiar contraseña</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'cambiar_contraseña' id_empleado=id_empleado %}" method="POST">
+            {% csrf_token %}
+                <h2>Cambiar Contraseña</h2>
+                <table>
+                    {{ cambiar_password.as_table }}
+                </table>
+                <button type="submit" value="Guardar" id="btn-guardar">Guardar</button>
+                <input type="button" onclick="window.location.href='{% url 'panel_empleado' %}'" value="Cancelar">
+            </form>
+        </div>
+    </div>
+</div>

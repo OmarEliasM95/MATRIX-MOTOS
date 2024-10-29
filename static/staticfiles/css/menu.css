@@ -1,0 +1,38 @@
+body{
+    font-family: 'Roboto',sans-serif;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.navbar {
+    box-shadow: 0 2px 5px rgba(4, 0, 0, 0.287);
+}
+.navbar-nav .nav-item {
+    margin-right: 15px;
+}
+.logo{
+    width: 100px;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link i {
+    margin-right: 5px;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item i {
+    margin-right: 5px;
+}

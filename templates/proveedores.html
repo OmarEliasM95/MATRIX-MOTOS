@@ -1,0 +1,100 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %} Apertura de Caja{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/proveedores.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="contenedor-flex">        
+        <div class="modal fade" id="mi-modal" tabindex="2" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="miModalLabel">Agregar Proveedor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'agregar_proveedor' %}" method="POST">
+                            {% csrf_token %}
+                            {{ mostrar_formulario.as_p }} 
+                            <button type="submit" class="bStn btn-success">Agregar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fil"> 
+            <h1><center>Lista de proveedores</center></h1>
+            <input type="text" id="busqueda" placeholder="Buscar Proveedor..." onkeyup="filtrarProveedores()">
+            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mi-modal" value="Agregar">
+                <i class="bi bi-person-fill-add"></i>
+            </button>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>E-mail</th>
+                    <th>Direccion</th>
+                    <th>Provincia</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in listado %}
+                <tr>
+                    <td>{{ proveedor.nombre }}</td>
+                    <td>{{ proveedor.telefono }}</td>
+                    <td>{{ proveedor.email }}</td>
+                    <td>{{ proveedor.dirección }}</td>
+                    <td>{{ proveedor.provincia }}</td>
+                    <td>
+                        <a href="#" onclick="modal_editar('{% url 'editar_proveedor' proveedor.id %}')">
+                            <i class="bi bi-pencil-square text-primary" title="Editar"></i> 
+                        </a>
+                        <form action="{% url 'eliminar_proveedor' proveedor.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link" value="Borrar">
+                                <i class="bi bi-trash-fill text-danger"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table> 
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="Primera">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="modal fade" id="edicion_prov" role="dialog"></div>
+    <script src="{% static 'js/proveedores.js' %}"></script>
+{% endblock %}

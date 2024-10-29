@@ -1,0 +1,56 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %}Cierre de Caja{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/cierre.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h1 class="card-title">CIERRE DE CAJA</h1>
+        </div>
+        <div class="card-body">
+            <div class="info-cierre mb-3">
+                <p><strong>Empleado:</strong> {{ user.username }}</p>
+                <p><strong>Fecha:</strong> {{ fecha_actual|date:"d/m/Y" }} <strong>Hora:</strong> {{ fecha_actual|time:"H:i" }}</p>
+                <p><strong>Saldo Inicial:</strong> ${{ formulario_cierre.instance.saldo_inicial }}</p>
+                <p><strong>Saldo Final:</strong> ${{ saldo_final }}</p>
+            </div>
+            <div class="contenedor-ingresos-egresos row">
+                <div class="lista-ingresos col-md-6">
+                    <h2>INGRESOS</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">Efectivo: ${{ ventas_efectivo }}</li>
+                        <li class="list-group-item">Transferencia: ${{ ventas_transferencia }}</li>
+                        <li class="list-group-item">Tarjeta de Crédito: ${{ ventas_tarjeta_credito }}</li>
+                        <li class="list-group-item">Tarjeta de Débito: ${{ ventas_tarjeta_debito }}</li>
+                    </ul>
+                    <p><strong>Movimiento:</strong> +${{ dinero_ingreso }}</p>
+                    <p><strong>Total Ingresos:</strong> ${{ total_ingresos }}</p>
+                </div>
+                <div class="lista-egresos col-md-6">
+                    <h2>EGRESOS</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item">Efectivo: ${{ compras_efectivo }}</li>
+                        <li class="list-group-item">Transferencia: ${{ compras_transferencia }}</li>
+                        <li class="list-group-item">Tarjeta de Débito: ${{ compras_tarjeta_debito }}</li>
+                        <li class="list-group-item">Gastos: ${{ gastos_compra }}</li>
+                    </ul>
+                    <p><strong>Movimiento:</strong> -${{ dinero_egreso }}</p>
+                    <p><strong>Total Egresos:</strong> ${{ total_egresos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-end">
+            <form action="{% url 'cierre' %}" id="cerrar-form" method="POST" class="d-inline">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Cerrar caja">
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/cierre.js' %}"></script>
+{% endblock %}

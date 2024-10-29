@@ -1,0 +1,25 @@
+<div class="modal-dialog modal-lg"> 
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="miModalLabel">Editar Proveedor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'editar_proveedor' id_proveedor=id_proveedor %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {% for field in formulario_editar %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success me-2">Guardar</button> 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

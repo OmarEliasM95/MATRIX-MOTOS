@@ -1,0 +1,54 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %}Perfil del Usuario{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/apertura.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="card p-4">
+            <h2 class="card-title">Perfil del Usuario</h2>
+            <hr>
+            <div class="perfil-info mb-3">
+                <p><strong>Nombre:</strong> {{ empleado.get_full_name }}</p>
+                <p><strong>Username:</strong> {{ empleado.username }}</p>
+                <p><strong>Email:</strong> {{ empleado.email }}</p>
+                <p><strong>Rol:</strong> {% if request.session.is_admin %} Administrador {% else %} Empleado {% endif %}</p>
+            </div>
+            <form method="post" id="formulario-perfil">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="password_actual">Contraseña Actual</label>
+                    <input type="password" id="password_actual" name="password_actual" class="input-estilo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password">Nueva Contraseña</label>
+                    <input type="password" id="password" name="password" class="input-estilo" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password_confirm">Confirmar Nueva Contraseña</label>
+                    <input type="password" id="password_confirm" name="password_confirm" class="input-estilo" required>
+                </div>
+                <button type="submit" class="btn btn-success" id="btn-cambiar">Cambiar Contraseña</button>
+            </form>
+
+        </div>
+    </div>
+    <script src="{% static 'js/perfil.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags != 'success' %} 
+                <script>
+                    Swal.fire({
+                        title: '{{ message.tags }}',
+                        text: '{{ message }}',
+                        icon: '{{ message.tags }}',
+                        confirmButtonText: 'Aceptar'
+                    });
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

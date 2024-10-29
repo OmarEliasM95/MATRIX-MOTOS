@@ -1,0 +1,117 @@
+{% extends 'menu.html' %}
+{% load static %}
+
+{% block title %} Inventario{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/inventario.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="contenedor-flex">
+        <div class="modal fade" id="mi-modal" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="miModalLabel">Agregar producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'agregar_producto' %}" method="POST">
+                            {% csrf_token %}
+                            <table>
+                                {% for field in mostrar_formulario %}
+                                    <tr>
+                                        <td>
+                                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                        </td>
+                                        <td>
+                                            {{ field }} 
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            <button type="submit" class="btn btn-success mt-2">Agregar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        <div class="contenido card">
+            <h1>Inventario</h1>
+            <div class="fil"> 
+                <input type="text" id="busqueda" placeholder="Buscar producto..." onkeyup="filtrarProductos()">
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#mi-modal" value="Agregar">
+                    <i class="bi bi-bag-plus-fill"></i>
+                </button>
+            </div>
+            
+            <div id="resultadoBusqueda">
+                <table id="tablaProductos" border="1" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio de venta</th>
+                            <th>Stock</th>
+                            <th>Proveedores</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in listado %}
+                        <tr>
+                            <td>{{ item.producto.nombre }}</td>
+                            <td>{{ item.producto.precio }}</td>
+                            <td>{{ item.producto.existencias }}</td>
+                            <td>{{ item.proveedor.nombre }}</td>
+                            <td>
+                                <a href="#" onclick="modal_editar_producto('{% url 'editar_producto' item.producto.id %}')">
+                                    <i class="bi bi-pencil-square text-primary" title="Editar"></i> 
+                                </a>
+                                <form action="{% url 'eliminar_producto' item.producto.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link text-danger" title="Borrar">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="Primera">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="edicion" role="dialog"></div>
+    <script src="{% static 'js/productos.js' %}"></script>
+{% endblock %}

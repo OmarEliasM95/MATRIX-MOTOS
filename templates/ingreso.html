@@ -1,0 +1,13 @@
+{% extends "menu.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5 text-center">
+        <h1>Gráficos</h1>
+        <div class="mb-3">
+            <a href="{% url 'datos_caja' %}" class="btn btn-primary">Gráfico Caja</a>
+            <a href="{% url 'grafico_ventas' %}" class="btn btn-success">Gráfico Ventas</a>
+            <a href="{% url 'grafico_compras' %}" class="btn btn-secondary">Gráfico Compras</a>
+        </div>
+    </div>
+{% endblock %}
